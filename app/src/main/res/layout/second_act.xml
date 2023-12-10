@@ -3,9 +3,19 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-
     <EditText
-        android:id="@+id/et"
+        android:id="@+id/etTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/lightGray"
+        android:layout_marginHorizontal = "20dp"
+        android:layout_marginTop="20dp"
+        android:textSize="18sp"
+        android:maxLines="1"
+        android:maxLength="50"
+        android:padding="10sp"/>
+    <EditText
+        android:id="@+id/etText"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:inputType="textMultiLine"

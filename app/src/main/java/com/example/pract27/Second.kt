@@ -5,47 +5,54 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.LayoutInflater
 import android.widget.Button
 import android.widget.EditText
+import com.example.pract27.databinding.SecondActBinding
 
 class Second : MyBaseActivity() {
+    lateinit var secondAct: SecondActBinding
     override fun onCreate(savedInstanceState: Bundle?) {
+        secondAct = SecondActBinding.inflate(layoutInflater)
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.second_act)
+        setContentView(secondAct.root)
 
-        val btnOk = findViewById<Button>(R.id.btnOk)
-        val btnCancel = findViewById<Button>(R.id.btnCancel)
-        btnOk.setOnClickListener {
+        secondAct.btnOk.setOnClickListener {
             closeActivity(Activity.RESULT_OK)
         }
-        btnCancel.setOnClickListener {
+        secondAct.btnCancel.setOnClickListener {
             closeActivity(Activity.RESULT_CANCELED)
         }
 
-        val et = findViewById<EditText>(R.id.et)
-        et.addTextChangedListener(object : TextWatcher {
+        val textWatcher = object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
-                val isTextNotEmpty = !s.isNullOrBlank()
-                btnOk.isEnabled = isTextNotEmpty
+                val hasText = !secondAct.etText.text.isNullOrBlank()
+                val hasTitle = !secondAct.etTitle.text.isNullOrBlank();
+                secondAct.btnOk.isEnabled = hasTitle && hasText
             }
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
-        })
+        }
+        secondAct.etTitle.addTextChangedListener(textWatcher)
+        secondAct.etText.addTextChangedListener(textWatcher)
+
+
 
         val action = intent.getIntExtra(EXTRA_ACTION_CODE, CREATE_ACTION)
-        val text = intent.getStringExtra(EXTRA_TEXT) ?: ""
-        val editText = findViewById<EditText>(R.id.et)
-        editText.setText(text)
+        val note = intent.getParcelableExtra<Note>(EXTRA_NOTE) ?: Note.empty()
+        secondAct.etTitle.setText(note.title)
+        secondAct.etText.setText(note.text)
     }
 
+
     private fun closeActivity(resultCode: Int){
-        val data = getIntent()
-        val et = findViewById<EditText>(R.id.et)
+        val data = intent
+        val etTitle = secondAct.etTitle
+        val etText = secondAct.etText
         val intent = Intent()
         intent.putExtra(EXTRA_ACTION_CODE, data.getIntExtra(EXTRA_ACTION_CODE, CREATE_ACTION))
-        intent.putExtra(EXTRA_TEXT, et.text.toString())
+        intent.putExtra(EXTRA_NOTE, Note(etTitle.text.toString(), etText.text.toString()))
         intent.putExtra(EXTRA_ID, data.getIntExtra(EXTRA_ID, 0))
-
         setResult(resultCode, intent)
         finish()
     }
