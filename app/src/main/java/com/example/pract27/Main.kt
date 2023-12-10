@@ -4,7 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.result.contract.ActivityResultContracts
-import com.example.pract19.databinding.MainActBinding
+import com.example.pract27.databinding.MainActBinding
 
 class Main : MyBaseActivity() {
     private lateinit var adapter: ListAdapter
@@ -43,15 +43,15 @@ class Main : MyBaseActivity() {
                 val data: Intent? = result.data
                 if (data != null) {
                     val id: Int = data.getIntExtra(EXTRA_ID, 1)
-                    val text: String = data.getStringExtra(EXTRA_TEXT) ?: ""
-                    println("EXTRA_TEXT: $text")
+                    val note = data.getParcelableExtra<Note>(EXTRA_NOTE) ?: Note.empty()
                     val actionCode = data.getIntExtra(EXTRA_ACTION_CODE, CREATE_ACTION)
                     when (actionCode){
-                        CREATE_ACTION -> adapter.addItem(text)
-                        EDIT_ACTION -> adapter.setItem(id, text)
+                        CREATE_ACTION -> adapter.addItem(note)
+                        EDIT_ACTION -> adapter.setItem(id, note)
                     }
                 }
             }
         }
 
 }
+

@@ -5,33 +5,36 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.TextView
+import com.example.pract27.databinding.LeElementBinding
 
 class ListAdapter(): BaseAdapter() {
 
-    override fun getCount(): Int = MyBaseActivity.list.count()
+    protected val list = mutableListOf<Note>()
+    override fun getCount(): Int = list.count()
     override fun getItem(index: Int) = list[index]
     override fun getItemId(index: Int) = index.toLong()
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
         val inflater = LayoutInflater.from(parent?.context)
-        val view = convertView ?: inflater.inflate(R.layout.le_element, parent, false)
-        val textView = view.findViewById<TextView>(R.id.et)
+        val listElement = LeElementBinding.inflate(inflater)
 
-        if (list[position].length > 18)
-            textView.text = list[position].substring(0, 15) + "..."
+        if (list[position].text.length > 18)
+            listElement.tvPreview.text = list[position].text.substring(0, 15) + "..."
         else
-            textView.text = list[position]
+            listElement.tvPreview.text = list[position].text
 
-        return view
+        listElement.tvTitle.text = list[position].title
+        listElement.tvTime.text = list[position].creationTime.toString()
+        return listElement.root
     }
 
-    fun addItem(text: String){
-        list.add(text)
+    fun addItem(newNote : Note){
+        list.add(newNote)
         notifyDataSetChanged()
     }
 
-    fun setItem(id: Int, text: String){
-        list[id] = text
+    fun setItem(id: Int, newNote: Note){
+        list[id] = newNote
         notifyDataSetChanged()
     }
 }
