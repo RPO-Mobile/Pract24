@@ -16,12 +16,12 @@ class Note (var title: String, var text : String) : Parcelable {
         title = parcel.readString() ?: "none",
         text = parcel.readString() ?: "none"
     ) {
-        creationTime = Gson().fromJson<LocalDateTime>(parcel.readString(), LocalDateTime::class.java)
+        creationTime = LocalDateTime.parse(parcel.readString())
     }
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeString(title)
         parcel.writeString(text)
-        parcel.writeString(Gson().toJson(creationTime))
+        parcel.writeString(creationTime.toString())
     }
     override fun describeContents(): Int = 0
 

@@ -30,7 +30,7 @@ class Main : MyBaseActivity() {
     fun callSecondForm(position: Int, action: Int) {
         val intent = Intent(this, Second::class.java)
         if (action == EDIT_ACTION) {
-                intent.putExtra(EXTRA_TEXT, adapter.getItem(position))
+                intent.putExtra(EXTRA_NOTE, adapter.getItem(position))
                 intent.putExtra(EXTRA_ID, position)
             }
         intent.putExtra(EXTRA_ACTION_CODE, action)

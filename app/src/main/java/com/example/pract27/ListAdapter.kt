@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.TextView
 import com.example.pract27.databinding.LeElementBinding
+import java.time.format.DateTimeFormatter
 
 class ListAdapter(): BaseAdapter() {
 
@@ -24,7 +25,8 @@ class ListAdapter(): BaseAdapter() {
             listElement.tvPreview.text = list[position].text
 
         listElement.tvTitle.text = list[position].title
-        listElement.tvTime.text = list[position].creationTime.toString()
+        listElement.tvTime.text = list[position].creationTime
+            .format(DateTimeFormatter.ISO_DATE)
         return listElement.root
     }
 
