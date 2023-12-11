@@ -1,13 +1,11 @@
-package com.example.pract27
+package com.example.pract27.ActivityClasses
 
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.view.LayoutInflater
-import android.widget.Button
-import android.widget.EditText
+import com.example.pract27.Note
 import com.example.pract27.databinding.SecondActBinding
 
 class Second : MyBaseActivity() {
@@ -43,7 +41,6 @@ class Second : MyBaseActivity() {
         secondAct.etTitle.setText(note.title)
         secondAct.etText.setText(note.text)
     }
-
 
     private fun closeActivity(resultCode: Int){
         val data = intent
