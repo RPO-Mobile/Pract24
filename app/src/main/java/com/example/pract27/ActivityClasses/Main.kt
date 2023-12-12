@@ -20,7 +20,7 @@ class Main : MyBaseActivity() {
             callSecondForm(-1, CREATE_ACTION)
         }
 
-        adapter = ListAdapter()
+        adapter = ListAdapter(baseContext)
 
         mainAct.lv.adapter = adapter
 

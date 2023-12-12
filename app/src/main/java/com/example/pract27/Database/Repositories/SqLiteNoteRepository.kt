@@ -14,8 +14,8 @@ import com.example.pract27.Note
 import java.time.LocalDateTime
 
 class SqLiteNoteRepository (val context: Context) : INoteRepository {
-    val noteDbHelper = NoteDbHelper(context)
-    var db: SQLiteDatabase? = null
+    private val noteDbHelper = NoteDbHelper(context)
+    private var db: SQLiteDatabase? = null
 
     private fun openWritableDb(){
         db = noteDbHelper.writableDatabase
@@ -31,7 +31,7 @@ class SqLiteNoteRepository (val context: Context) : INoteRepository {
         val values = ContentValues().apply {
             put(NoteContract.Notes.COLUMN_TITLE, note.title)
             put(NoteContract.Notes.COLUMN_TEXT, note.text)
-            put(NoteContract.Notes.COLUMN_TIME, note.toString())
+            put(NoteContract.Notes.COLUMN_TIME, note.creationTime.toString())
         }
 
         return db?.insert(NoteContract.Notes.TABLE_NAME, null, values)
@@ -50,7 +50,7 @@ class SqLiteNoteRepository (val context: Context) : INoteRepository {
 
         val selection = "${BaseColumns._ID } LIKE ?"
         val selectionArgs = arrayOf("${note.id}")
-        db?.update(NoteContract.DB_NAME, values, selection, selectionArgs)
+        db?.update(NoteContract.Notes.TABLE_NAME, values, selection, selectionArgs)
     }
 
     override fun getById(id: Int): Note {
