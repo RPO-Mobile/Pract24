@@ -1,22 +1,22 @@
 package com.example.pract27.ActivityClasses
 
 import android.app.Activity
-import android.app.TimePickerDialog
 import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import androidx.appcompat.app.AlertDialog
+import com.example.pract27.Dialogs.DatePickerFragment
+import com.example.pract27.Dialogs.IDatePickerListener
 import com.example.pract27.Dialogs.ITimePickerListener
 import com.example.pract27.Dialogs.TimePickerFragment
 import com.example.pract27.Note
 import com.example.pract27.databinding.SecondActBinding
+import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
-import java.util.Calendar
 
-class Second : MyBaseActivity(), ITimePickerListener {
+class Second : MyBaseActivity(), ITimePickerListener, IDatePickerListener {
     lateinit var secondAct: SecondActBinding
     private lateinit var note : Note
 
@@ -28,7 +28,9 @@ class Second : MyBaseActivity(), ITimePickerListener {
 
         secondAct.setTime.setOnClickListener {
             val timePickerFragment = TimePickerFragment()
+            val datePickerFragment = DatePickerFragment()
             timePickerFragment.show(supportFragmentManager, "timePicker")
+            datePickerFragment.show(supportFragmentManager, "datePicker")
         }
         secondAct.btnOk.setOnClickListener {
             closeActivity(Activity.RESULT_OK)
@@ -49,14 +51,11 @@ class Second : MyBaseActivity(), ITimePickerListener {
         secondAct.etTitle.addTextChangedListener(textWatcher)
         secondAct.etText.addTextChangedListener(textWatcher)
 
-
-
         val action = intent.getIntExtra(EXTRA_ACTION_CODE, CREATE_ACTION)
         secondAct.etTitle.setText(note.title)
         secondAct.etText.setText(note.text)
         secondAct.tvTime.text = note.creationTime.format(DateTimeFormatter.ofPattern(DATE_PATTERN))
     }
-
 
     private fun closeActivity(resultCode: Int){
         val data = intent
@@ -72,13 +71,20 @@ class Second : MyBaseActivity(), ITimePickerListener {
         setResult(resultCode, intent)
         finish()
     }
-
     override fun onTimeSelected(selectedTime: LocalTime) {
         val dateTime = LocalDateTime.parse(
             secondAct.tvTime.text,
             DateTimeFormatter.ofPattern(DATE_PATTERN))
-        val newTime = dateTime.toLocalDate().atTime(selectedTime)
-        secondAct.tvTime.text = newTime.format(DateTimeFormatter.ofPattern(DATE_PATTERN))
-        note.creationTime = newTime
+        val newDateTime = dateTime.toLocalDate().atTime(selectedTime)
+        secondAct.tvTime.text = newDateTime.format(DateTimeFormatter.ofPattern(DATE_PATTERN))
+        note.creationTime = newDateTime
+    }
+    override fun onDateSelected(selectedDate: LocalDate) {
+        val dateTime = LocalDateTime.parse(
+            secondAct.tvTime.text,
+            DateTimeFormatter.ofPattern(DATE_PATTERN))
+        val newDateTime = dateTime.toLocalTime().atDate(selectedDate)
+        secondAct.tvTime.text = newDateTime.format(DateTimeFormatter.ofPattern(DATE_PATTERN))
+        note.creationTime = newDateTime
     }
 }
