@@ -10,7 +10,7 @@ import java.time.LocalDateTime
 class Note (
     var title: String,
     var text : String,
-    val id: Int = -1,
+    var id: Int = -1,
     val creationTime: LocalDateTime = LocalDateTime.now()) : Parcelable {
     @RequiresApi(Build.VERSION_CODES.O)
 

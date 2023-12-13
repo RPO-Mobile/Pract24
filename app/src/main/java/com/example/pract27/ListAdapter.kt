@@ -12,14 +12,14 @@ import com.example.pract27.databinding.LeElementBinding
 import java.time.format.DateTimeFormatter
 
 class ListAdapter(context: Context): BaseAdapter() {
-    private val list : MutableList<Note>
+    private var list : MutableList<Note>
 
     private val noteDb : INoteRepository = SqLiteNoteRepository(context)
     init {
         list = noteDb.getALlNotes()
     }
     override fun getCount(): Int = list.count()
-    override fun getItem(index: Int) = list[index]
+    override fun getItem(index: Int) : Note = list[index]
     override fun getItemId(index: Int) = index.toLong()
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
@@ -40,14 +40,14 @@ class ListAdapter(context: Context): BaseAdapter() {
     }
 
     fun addItem(newNote : Note){
-        noteDb.addNote(newNote)
-        list.add(newNote)
+        newNote.id = noteDb.addNote(newNote)?.toInt() ?: -1
+        list = noteDb.getALlNotes()
         notifyDataSetChanged()
     }
 
     fun setItem(id: Int, newNote: Note){
         noteDb.save(newNote)
-        list[id] = newNote
+        list = noteDb.getALlNotes()
         notifyDataSetChanged()
     }
 }

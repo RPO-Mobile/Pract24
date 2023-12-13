@@ -45,7 +45,7 @@ class SqLiteNoteRepository (val context: Context) : INoteRepository {
         val values = ContentValues().apply {
             put(NoteContract.Notes.COLUMN_TITLE, note.title)
             put(NoteContract.Notes.COLUMN_TEXT, note.text)
-            put(NoteContract.Notes.COLUMN_TIME, note.toString())
+            put(NoteContract.Notes.COLUMN_TIME, note.creationTime.toString())
         }
 
         val selection = "${BaseColumns._ID } LIKE ?"
@@ -123,7 +123,7 @@ class SqLiteNoteRepository (val context: Context) : INoteRepository {
 
     @SuppressLint("Range")
     private fun convertToNote(cursor: Cursor) : Note{
-        val text = cursor.getString(cursor.getColumnIndex(NoteContract.Notes.COLUMN_TITLE))
+        val text = cursor.getString(cursor.getColumnIndex(NoteContract.Notes.COLUMN_TEXT))
         val title = cursor.getString(cursor.getColumnIndex(NoteContract.Notes.COLUMN_TITLE))
         val creationTime = cursor.getString(cursor.getColumnIndex(NoteContract.Notes.COLUMN_TIME))
         val id = cursor.getInt(cursor.getColumnIndex(BaseColumns._ID))
