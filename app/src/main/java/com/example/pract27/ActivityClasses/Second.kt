@@ -1,22 +1,23 @@
-package com.example.pract27
+package com.example.pract27.ActivityClasses
 
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.view.LayoutInflater
-import android.widget.Button
-import android.widget.EditText
+import com.example.pract27.Note
 import com.example.pract27.databinding.SecondActBinding
+import java.time.format.DateTimeFormatter
 
 class Second : MyBaseActivity() {
     lateinit var secondAct: SecondActBinding
+    private lateinit var note : Note
+
     override fun onCreate(savedInstanceState: Bundle?) {
         secondAct = SecondActBinding.inflate(layoutInflater)
         super.onCreate(savedInstanceState)
         setContentView(secondAct.root)
-
+        note = intent.getParcelableExtra<Note>(EXTRA_NOTE) ?: Note.empty()
         secondAct.btnOk.setOnClickListener {
             closeActivity(Activity.RESULT_OK)
         }
@@ -39,11 +40,10 @@ class Second : MyBaseActivity() {
 
 
         val action = intent.getIntExtra(EXTRA_ACTION_CODE, CREATE_ACTION)
-        val note = intent.getParcelableExtra<Note>(EXTRA_NOTE) ?: Note.empty()
         secondAct.etTitle.setText(note.title)
         secondAct.etText.setText(note.text)
+        secondAct.tvTime.setText(note.creationTime.format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm")))
     }
-
 
     private fun closeActivity(resultCode: Int){
         val data = intent
@@ -51,7 +51,7 @@ class Second : MyBaseActivity() {
         val etText = secondAct.etText
         val intent = Intent()
         intent.putExtra(EXTRA_ACTION_CODE, data.getIntExtra(EXTRA_ACTION_CODE, CREATE_ACTION))
-        intent.putExtra(EXTRA_NOTE, Note(etTitle.text.toString(), etText.text.toString()))
+        intent.putExtra(EXTRA_NOTE, Note(etTitle.text.toString(), etText.text.toString(), note.id, note.creationTime))
         intent.putExtra(EXTRA_ID, data.getIntExtra(EXTRA_ID, 0))
         setResult(resultCode, intent)
         finish()

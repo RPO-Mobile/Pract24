@@ -1,42 +1,53 @@
 package com.example.pract27
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.TextView
+import com.example.pract27.Database.Repositories.INoteRepository
+import com.example.pract27.Database.Repositories.SqLiteNoteRepository
 import com.example.pract27.databinding.LeElementBinding
 import java.time.format.DateTimeFormatter
 
-class ListAdapter(): BaseAdapter() {
+class ListAdapter(context: Context): BaseAdapter() {
+    private var list : MutableList<Note>
 
-    protected val list = mutableListOf<Note>()
+    private val noteDb : INoteRepository = SqLiteNoteRepository(context)
+    init {
+        list = noteDb.getALlNotes()
+    }
     override fun getCount(): Int = list.count()
-    override fun getItem(index: Int) = list[index]
+    override fun getItem(index: Int) : Note = list[index]
     override fun getItemId(index: Int) = index.toLong()
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
         val inflater = LayoutInflater.from(parent?.context)
         val listElement = LeElementBinding.inflate(inflater)
 
-        if (list[position].text.length > 18)
-            listElement.tvPreview.text = list[position].text.substring(0, 15) + "..."
-        else
-            listElement.tvPreview.text = list[position].text
+        val note = list[position]
+        listElement.tvTitle.text = note.title.toString()
 
-        listElement.tvTitle.text = list[position].title
-        listElement.tvTime.text = list[position].creationTime
-            .format(DateTimeFormatter.ISO_DATE)
+        val text = note.text
+        listElement.tvPreview.text =
+            if (text.length < 50)
+                text
+            else
+                text.substring(0, 50) + "..."
+        listElement.tvTime.text = note.creationTime.format(DateTimeFormatter.ISO_DATE)
         return listElement.root
     }
 
     fun addItem(newNote : Note){
-        list.add(newNote)
+        newNote.id = noteDb.addNote(newNote)?.toInt() ?: -1
+        list = noteDb.getALlNotes()
         notifyDataSetChanged()
     }
 
     fun setItem(id: Int, newNote: Note){
-        list[id] = newNote
+        noteDb.save(newNote)
+        list = noteDb.getALlNotes()
         notifyDataSetChanged()
     }
 }

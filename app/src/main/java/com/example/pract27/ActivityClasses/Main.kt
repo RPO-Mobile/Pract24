@@ -1,9 +1,11 @@
-package com.example.pract27
+package com.example.pract27.ActivityClasses
 
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.result.contract.ActivityResultContracts
+import com.example.pract27.ListAdapter
+import com.example.pract27.Note
 import com.example.pract27.databinding.MainActBinding
 
 class Main : MyBaseActivity() {
@@ -18,7 +20,7 @@ class Main : MyBaseActivity() {
             callSecondForm(-1, CREATE_ACTION)
         }
 
-        adapter = ListAdapter()
+        adapter = ListAdapter(baseContext)
 
         mainAct.lv.adapter = adapter
 
