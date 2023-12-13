@@ -11,7 +11,7 @@ class Note (
     var title: String,
     var text : String,
     var id: Int = -1,
-    val creationTime: LocalDateTime = LocalDateTime.now()) : Parcelable {
+    var creationTime: LocalDateTime = LocalDateTime.now()) : Parcelable {
     @RequiresApi(Build.VERSION_CODES.O)
 
    private constructor(parcel: Parcel) : this(
