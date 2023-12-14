@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+        <string-array name= "sort_array">
+            <item>По алфавиту</item>
+            <item>Обратно алфавиту</item>
+            <item>По возрастанию даты</item>
+            <item>По убыванию даты</item>
+        </string-array>
+</resources>

@@ -67,7 +67,7 @@
             android:layout_marginHorizontal="20dp"
             android:padding="10dp"
             android:textSize="20sp"
-            android:text="cancel"/>
+            android:text="отмена"/>
     </LinearLayout>
 
 </LinearLayout>

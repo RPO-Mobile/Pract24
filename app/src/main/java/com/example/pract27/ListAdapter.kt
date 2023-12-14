@@ -18,6 +18,23 @@ class ListAdapter(context: Context): BaseAdapter() {
     init {
         list = noteDb.getALlNotes()
     }
+
+    fun sortByAplphabet(){
+        list.sortBy { note -> note.title }
+        notifyDataSetChanged()
+    }
+    fun sortByAplphabetDesc(){
+        list.sortByDescending { note -> note.title }
+        notifyDataSetChanged()
+    }
+    fun sortByTime(){
+        list.sortBy { note -> note.creationTime }
+        notifyDataSetChanged()
+    }
+    fun sortByTimeDesc(){
+        list.sortByDescending { note -> note.creationTime }
+        notifyDataSetChanged()
+    }
     override fun getCount(): Int = list.count()
     override fun getItem(index: Int) : Note = list[index]
     override fun getItemId(index: Int) = index.toLong()
