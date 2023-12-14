@@ -31,6 +31,10 @@ class Main : MyBaseActivity() {
         mainAct.lv.setOnItemClickListener { _, _, position, _ ->
             callSecondForm(position, EDIT_ACTION)
         }
+        mainAct.lv.setOnItemLongClickListener { _, _, position, _ ->
+            adapter.deleteItem(position)
+            true
+        }
     }
 
     fun callSecondForm(position: Int, action: Int) {
@@ -77,8 +81,8 @@ class Main : MyBaseActivity() {
                 id: Long
             ) {
                 when(id)  {
-                    0L -> adapter.sortByAplphabet()
-                    1L -> adapter.sortByAplphabetDesc()
+                    0L -> adapter.sortByAlphabet()
+                    1L -> adapter.sortByAlphabetDesc()
                     2L -> adapter.sortByTime()
                     3L -> adapter.sortByTimeDesc()
                 }

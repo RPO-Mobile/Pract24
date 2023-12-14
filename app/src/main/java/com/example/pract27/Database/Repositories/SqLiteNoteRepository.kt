@@ -87,6 +87,17 @@ class SqLiteNoteRepository (val context: Context) : INoteRepository {
         return Note.empty()
     }
 
+    override fun delete(noteId: Int) {
+        if (db == null || !db?.isOpen!!) {
+            openWritableDb()
+        }
+
+        val selection = "${BaseColumns._ID} LIKE ?"
+        val selectionArgs = arrayOf("$noteId")
+
+        db?.delete(NoteContract.Notes.TABLE_NAME, selection, selectionArgs)
+    }
+
     override fun getALlNotes(): MutableList<Note> {
         if (db == null || !db?.isOpen!!){
             openReadableDb()
