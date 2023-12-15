@@ -6,4 +6,9 @@
             <item>По возрастанию даты</item>
             <item>По убыванию даты</item>
         </string-array>
+    <string-array name= "fuck_array">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </string-array>
 </resources>

@@ -7,11 +7,19 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="right">
+        <Spinner
+            android:id="@+id/spSort"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="20dp"
+            android:padding="10dp"
+            android:textSize="14sp"
+            android:background="@color/lightGray"/>
         <Button
             android:id="@+id/setTime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Установить время"/>
+            android:text="Установить"/>
         <TextView
             android:id="@+id/tvTime"
             android:layout_width="wrap_content"

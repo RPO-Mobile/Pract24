@@ -11,6 +11,7 @@ class Note (
     var title: String,
     var text : String,
     var id: Int = -1,
+    var importance: Int = 2,
     var creationTime: LocalDateTime = LocalDateTime.now()) : Parcelable {
     @RequiresApi(Build.VERSION_CODES.O)
 
@@ -18,13 +19,15 @@ class Note (
         title = parcel.readString() ?: "none",
         text = parcel.readString() ?: "none",
         id = parcel.readInt() ?: -1,
-        creationTime = LocalDateTime.parse(parcel.readString()))
+        creationTime = LocalDateTime.parse(parcel.readString()),
+        importance = parcel.readInt())
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeString(title)
         parcel.writeString(text)
         parcel.writeInt(id)
         parcel.writeString(creationTime.toString())
+        parcel.writeInt(importance)
     }
     override fun describeContents(): Int = 0
     companion object CREATOR : Parcelable.Creator<Note> {

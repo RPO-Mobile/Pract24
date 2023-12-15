@@ -7,6 +7,7 @@ import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.activity.result.contract.ActivityResultContracts
+import com.example.pract27.Database.NoteContract
 import com.example.pract27.ListAdapter
 import com.example.pract27.Note
 import com.example.pract27.R
@@ -16,6 +17,8 @@ class Main : MyBaseActivity() {
     private lateinit var adapter: ListAdapter
     private lateinit var mainAct: MainActBinding
     override fun onCreate(savedInstanceState: Bundle?) {
+
+
         mainAct = MainActBinding.inflate(layoutInflater)
         super.onCreate(savedInstanceState)
         setContentView(mainAct.root)

@@ -32,6 +32,7 @@ class SqLiteNoteRepository (val context: Context) : INoteRepository {
             put(NoteContract.Notes.COLUMN_TITLE, note.title)
             put(NoteContract.Notes.COLUMN_TEXT, note.text)
             put(NoteContract.Notes.COLUMN_TIME, note.creationTime.toString())
+            put(NoteContract.Notes.COLUMN_IMPORTANCE, note.importance.toString())
         }
 
         return db?.insert(NoteContract.Notes.TABLE_NAME, null, values)
@@ -46,6 +47,7 @@ class SqLiteNoteRepository (val context: Context) : INoteRepository {
             put(NoteContract.Notes.COLUMN_TITLE, note.title)
             put(NoteContract.Notes.COLUMN_TEXT, note.text)
             put(NoteContract.Notes.COLUMN_TIME, note.creationTime.toString())
+            put(NoteContract.Notes.COLUMN_IMPORTANCE, note.importance.toString())
         }
 
         val selection = "${BaseColumns._ID } LIKE ?"
@@ -62,7 +64,8 @@ class SqLiteNoteRepository (val context: Context) : INoteRepository {
             BaseColumns._ID,
             NoteContract.Notes.COLUMN_TITLE,
             NoteContract.Notes.COLUMN_TEXT,
-            NoteContract.Notes.COLUMN_TIME)
+            NoteContract.Notes.COLUMN_TIME,
+            NoteContract.Notes.COLUMN_IMPORTANCE)
 
         val selection = "${BaseColumns._ID} = ?"
         val selectionArgs = arrayOf("$id")
@@ -107,7 +110,8 @@ class SqLiteNoteRepository (val context: Context) : INoteRepository {
             BaseColumns._ID,
             NoteContract.Notes.COLUMN_TITLE,
             NoteContract.Notes.COLUMN_TEXT,
-            NoteContract.Notes.COLUMN_TIME
+            NoteContract.Notes.COLUMN_TIME,
+            NoteContract.Notes.COLUMN_IMPORTANCE
         )
         val sortOrder = "${BaseColumns._ID} DESC"
 
@@ -138,12 +142,14 @@ class SqLiteNoteRepository (val context: Context) : INoteRepository {
         val title = cursor.getString(cursor.getColumnIndex(NoteContract.Notes.COLUMN_TITLE))
         val creationTime = cursor.getString(cursor.getColumnIndex(NoteContract.Notes.COLUMN_TIME))
         val id = cursor.getInt(cursor.getColumnIndex(BaseColumns._ID))
+        val importence = cursor.getInt(cursor.getColumnIndex(NoteContract.Notes.COLUMN_IMPORTANCE))
 
         return Note(
             text = text,
             title = title,
             creationTime = LocalDateTime.parse(creationTime),
-            id = id
+            id = id,
+            importance = importence
         )
     }
 }
