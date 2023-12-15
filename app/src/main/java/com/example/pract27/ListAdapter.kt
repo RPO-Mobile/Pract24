@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
-import android.widget.TextView
 import com.example.pract27.Database.Repositories.INoteRepository
 import com.example.pract27.Database.Repositories.SqLiteNoteRepository
 import com.example.pract27.databinding.LeElementBinding
@@ -18,6 +17,8 @@ class ListAdapter(context: Context): BaseAdapter() {
     init {
         list = noteDb.getALlNotes()
     }
+
+
     override fun getCount(): Int = list.count()
     override fun getItem(index: Int) : Note = list[index]
     override fun getItemId(index: Int) = index.toLong()
@@ -48,6 +49,27 @@ class ListAdapter(context: Context): BaseAdapter() {
     fun setItem(id: Int, newNote: Note){
         noteDb.save(newNote)
         list = noteDb.getALlNotes()
+        notifyDataSetChanged()
+    }
+    fun deleteItem(id: Int){
+        noteDb.delete(list[id].id)
+        list.removeAt(id)
+        notifyDataSetChanged()
+    }
+    fun sortByAlphabet(){
+        list.sortBy { note -> note.title }
+        notifyDataSetChanged()
+    }
+    fun sortByAlphabetDesc(){
+        list.sortByDescending { note -> note.title }
+        notifyDataSetChanged()
+    }
+    fun sortByTime(){
+        list.sortBy { note -> note.creationTime }
+        notifyDataSetChanged()
+    }
+    fun sortByTimeDesc(){
+        list.sortByDescending { note -> note.creationTime }
         notifyDataSetChanged()
     }
 }

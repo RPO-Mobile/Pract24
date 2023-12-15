@@ -8,4 +8,6 @@ public class MyBaseActivity extends AppCompatActivity {
     protected static final String EXTRA_ID = "id";
     protected static final String EXTRA_ACTION_CODE = "actionCode";
     protected static final String EXTRA_NOTE = "note";
+    protected static final String EXTRA_TIME = "time";
+    protected static final String DATE_PATTERN = "dd.MM.yyyy HH:mm";
 }
